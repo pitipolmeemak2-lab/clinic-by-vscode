@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Users, Stethoscope, Pill, Calendar } from 'lucide-react'
-import { createClient } from '@/lib/supabase'
+import { createClient } from '@/lib/supabase-browser'
 
 export default function Home() {
   const [stats, setStats] = useState({

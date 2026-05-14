@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { createClient } from '@/lib/supabase'
+import { createClient } from '@/lib/supabase-browser'
 import { Patient, Queue } from '@/types'
 
 export default function MedicalHistoryPage() {

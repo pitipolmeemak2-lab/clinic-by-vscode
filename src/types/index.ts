@@ -61,3 +61,26 @@ export type Appointment = {
   updated_at: string
   patients?: Patient
 }
+
+export type UserRole = 'assistant' | 'doctor' | 'pharmacy'
+
+export type Profile = {
+  id: string
+  user_id: string
+  role: UserRole
+  first_name: string
+  last_name: string
+  email: string
+  phone?: string
+  license_number?: string
+  specialization?: string
+  status: 'active' | 'inactive'
+  created_at: string
+  updated_at: string
+}
+
+export type AuthUser = {
+  id: string
+  email: string
+  profile?: Profile
+}
