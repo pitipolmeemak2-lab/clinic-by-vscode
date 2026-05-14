@@ -12,15 +12,84 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+    --card-background: #111827;
+    --panel-background: #111827;
+    --panel-border: #374151;
+    --input-background: #1f2937;
+    --input-border: #4b5563;
+    --input-color: #f8fafc;
+    --input-placeholder: #9ca3af;
+    --muted-text: #9ca3af;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+  }
+
+  .bg-white {
+    background-color: var(--card-background) !important;
+  }
+
+  .bg-gray-50 {
+    background-color: var(--panel-background) !important;
+  }
+
+  .bg-blue-50 {
+    background-color: #1e40af !important;
+  }
+
+  .bg-green-50 {
+    background-color: #053e34 !important;
+  }
+
+  .bg-orange-50 {
+    background-color: #422006 !important;
+  }
+
+  .bg-yellow-50 {
+    background-color: #3f3011 !important;
+  }
+
+  .text-gray-500,
+  .text-gray-600,
+  .text-gray-700,
+  .text-zinc-600,
+  .text-zinc-950,
+  .text-gray-400 {
+    color: var(--muted-text) !important;
+  }
+
+  .border,
+  .border-gray-200,
+  .border-blue-200,
+  .border-blue-300,
+  .border-black\/\[\.08\],
+  .border-yellow-200 {
+    border-color: var(--panel-border) !important;
+  }
+
+  input,
+  textarea,
+  select {
+    background-color: var(--input-background) !important;
+    color: var(--input-color) !important;
+    border-color: var(--input-border) !important;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--input-placeholder) !important;
+  }
+}
+
