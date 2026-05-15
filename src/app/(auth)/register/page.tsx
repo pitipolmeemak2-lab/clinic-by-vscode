@@ -9,16 +9,18 @@ import Link from 'next/link';
 export default function RegisterPage() {
   const router = useRouter();
   const { register } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [role, setRole] = useState<UserRole>('assistant');
+  const [email, setEmail] = useState('admin@clinic.com');
+  const [password, setPassword] = useState('password123');
+  const [confirmPassword, setConfirmPassword] = useState('password123');
+  const [role, setRole] = useState<UserRole>('doctor');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuccess(false);
     setLoading(true);
 
     try {
@@ -38,7 +40,12 @@ export default function RegisterPage() {
       }
 
       await register(email, password, role);
-      router.push('/dashboard');
+      setSuccess(true);
+      
+      // Wait 2 seconds then redirect
+      setTimeout(() => {
+        router.push('/dashboard');
+      }, 2000);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to register';
       setError(errorMessage);
@@ -54,6 +61,12 @@ export default function RegisterPage() {
           <h1 className="text-3xl font-bold text-gray-800">Clinic System</h1>
           <p className="text-gray-600 mt-2">New User Registration</p>
         </div>
+
+        {success && (
+          <div className="mb-4 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg">
+            ✅ Registration successful! Redirecting to dashboard...
+          </div>
+        )}
 
         {error && (
           <div className="mb-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">
@@ -125,10 +138,10 @@ export default function RegisterPage() {
 
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || success}
             className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
           >
-            {loading ? 'Registering...' : 'Register'}
+            {loading ? 'Registering...' : success ? 'Registered!' : 'Register'}
           </button>
         </form>
 
@@ -139,6 +152,13 @@ export default function RegisterPage() {
               Login here
             </Link>
           </p>
+        </div>
+
+        <div className="mt-4 p-3 bg-green-50 rounded-lg text-sm text-gray-700">
+          <p className="font-semibold mb-2">Default Demo Credentials:</p>
+          <p>Email: admin@clinic.com</p>
+          <p>Password: password123</p>
+          <p className="text-xs mt-2 text-gray-500">Or create a new account with your own credentials</p>
         </div>
       </div>
     </div>

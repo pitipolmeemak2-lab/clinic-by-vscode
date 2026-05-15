@@ -43,34 +43,34 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  // Protected routes that require authentication
-  const protectedRoutes = ['/dashboard'];
-
-  // Public auth routes
-  const publicAuthRoutes = ['/login', '/register'];
+  let user = null;
+  try {
+    const {
+      data: { user: authUser },
+    } = await supabase.auth.getUser();
+    user = authUser;
+  } catch (error) {
+    // Silently fail
+  }
 
   const pathname = request.nextUrl.pathname;
+  const protectedRoutes = ['/dashboard'];
+  const publicAuthRoutes = ['/login', '/register'];
 
-  // Check if route is protected
   const isProtectedRoute = protectedRoutes.some((route) =>
     pathname.startsWith(route)
   );
 
-  // Check if route is public auth route
   const isPublicAuthRoute = publicAuthRoutes.some((route) =>
     pathname.startsWith(route)
   );
 
-  // If user is not authenticated and trying to access protected route
+  // Redirect to login if accessing protected route without auth
   if (isProtectedRoute && !user) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  // If user is authenticated and trying to access public auth routes
+  // Redirect to dashboard if authenticated and on auth pages
   if (isPublicAuthRoute && user) {
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
@@ -80,13 +80,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
     '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
 };

@@ -96,9 +96,14 @@ export default function LoginPage() {
         </div>
 
         <div className="mt-4 p-3 bg-blue-50 rounded-lg text-sm text-gray-700">
-          <p className="font-semibold mb-2">Demo Credentials:</p>
-          <p>Email: admin@clinic.com</p>
-          <p>Password: password123</p>
+          <p className="font-semibold mb-2">First time?</p>
+          <p className="mb-3">Create a test account to try the system:</p>
+          <Link 
+            href="/register" 
+            className="block text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
+          >
+            Create Test Account
+          </Link>
         </div>
       </div>
     </div>

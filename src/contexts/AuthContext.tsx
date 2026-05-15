@@ -124,13 +124,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     role: UserRole
   ) => {
     try {
-      // Sign up user
+      // Sign up user (returns session for unconfirmed emails)
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
-        options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback`,
-        },
       });
 
       if (error) throw error;
@@ -140,7 +137,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const profilePayload = {
           id: data.user.id,
           user_id: data.user.id,
-          email: data.user.email ?? '',
+          email: email ?? '',
           role,
           first_name: '',
           last_name: '',
@@ -153,6 +150,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         if (profileError) throw profileError;
 
+        // Set user state (signup returns a session even if email not confirmed)
         setUser({
           id: data.user.id,
           email: data.user.email || '',
